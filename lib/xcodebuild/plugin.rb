@@ -8,6 +8,7 @@ module Danger
   #          xcodebuild.parse_warnings
   #          xcodebuild.parse_errors
   #          xcodebuild.parse_tests
+  #          xcodebuild.perfect_build
   #
   # @see  valeriomazzeo/danger-xcodebuild
   # @tags xcode, xcodebuild, errors, warnings, tests, xcpretty-json-formatter
