@@ -8,8 +8,10 @@ Exposes warnings, errors and test results. It requires a JSON generated using [x
 
 ## Usage
 
-    Methods and attributes from this plugin are available in
-    your `Dangerfile` under the `xcodebuild` namespace.
+    xcodebuild.parse_warnings
+    xcodebuild.parse_errors
+    xcodebuild.parse_tests
+    xcodebuild.perfect_build
 
 ## Development
 
