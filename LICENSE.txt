@@ -1,4 +1,4 @@
-Copyright (c) 2016 Valerio Mazzeo <valerio.mazzeo@gmail.com>
+Copyright (c) 2016 Valerio Mazzeo
 
 MIT License
 

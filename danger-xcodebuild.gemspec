@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Xcodebuild::VERSION
   spec.authors       = ['Valerio Mazzeo']
   spec.email         = ['valerio.mazzeo@gmail.com']
-  spec.description   = %q{A short description of danger-xcodebuild.}
-  spec.summary       = %q{A longer description of danger-xcodebuild.}
-  spec.homepage      = 'https://github.com/Valerio Mazzeo/danger-xcodebuild'
+  spec.description   = %q{Exposes warnings, errors and test results.}
+  spec.summary       = %q{Exposes warnings, errors and test results. It requires a JSON generated using xcpretty-json-formatter to be passed as an argument for it to work.}
+  spec.homepage      = 'https://github.com/valeriomazzeo/danger-xcodebuild'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
@@ -28,7 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.4'
 
   # Linting code and docs
-  spec.add_development_dependency "rubocop", "~> 0.41"
   spec.add_development_dependency "yard", "~> 0.8"
 
   # Makes testing easy via `bundle exec guard`

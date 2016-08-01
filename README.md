@@ -1,6 +1,6 @@
 # danger-xcodebuild
 
-A description of danger-xcodebuild.
+Exposes warnings, errors and test results. It requires a JSON generated using [xcpretty-json-formatter](https://github.com/marcelofabri/xcpretty-json-formatter), to be passed as an argument for it to work.
 
 ## Installation
 
