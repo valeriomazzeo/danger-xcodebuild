@@ -17,10 +17,11 @@ module Danger
     # Allows you to specify an xcodebuild JSON file location to parse.
     attr_accessor :xcodebuild_json
 
-    def initialize
-        @warning_count = 0
-        @error_count = 0
-        @test_failures_count = 0
+    def initialize(arg)
+      super
+      @warning_count = 0
+      @error_count = 0
+      @test_failures_count = 0
     end
 
     # Parses and exposes eventual warnings.
@@ -48,10 +49,9 @@ module Danger
     # @return   [is_perfect_build]
     #
     def perfect_build
-      is_perfect_build = @warning_count == 0 && @errors.count == 0 && @test_failures.count == 0
+      is_perfect_build = @warning_count == 0 && @error_count == 0 && @test_failures_count == 0
       message("Perfect build 👍🏻") if is_perfect_build
       return is_perfect_build
-      end
     end
 
     def self.instance_name

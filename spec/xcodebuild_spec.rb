@@ -16,10 +16,7 @@ module Danger
       end
 
       it "is a perfect build" do
-        monday_date = Date.parse("2016-07-11")
-        allow(Date).to receive(:today).and_return monday_date
-
-        expect(@xcodebuild.perfect_build).to be_true
+        expect(@xcodebuild.perfect_build).to be true
         expect(@dangerfile.status_report[:messages]).to eq(["Perfect build 👍🏻"])
       end
 
