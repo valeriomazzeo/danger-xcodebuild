@@ -1,5 +1,7 @@
 # danger-xcodebuild
 
+[![Gem Version](https://badge.fury.io/rb/danger-xcodebuild.svg)](https://badge.fury.io/rb/danger-xcodebuild) [![Build Status](https://travis-ci.org/valeriomazzeo/danger-xcodebuild.svg?branch=master)](https://travis-ci.org/valeriomazzeo/danger-xcodebuild)
+
 Exposes warnings, errors and test results. It requires a JSON generated using [xcpretty-json-formatter](https://github.com/marcelofabri/xcpretty-json-formatter), to be passed as an argument for it to work.
 
 ## Installation
