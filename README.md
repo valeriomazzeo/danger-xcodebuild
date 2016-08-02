@@ -10,6 +10,8 @@ Exposes warnings, errors and test results. It requires a JSON generated using [x
 
 ## Usage
 
+    xcodebuild.json_file = "./fastlane/reports/xcpretty-json-formatter-results.json"
+
     xcodebuild.parse_warnings
     xcodebuild.parse_errors
     xcodebuild.parse_tests
