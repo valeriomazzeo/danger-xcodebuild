@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    danger-xcodebuild (0.0.1)
-      danger (~> 2.0)
+    danger-xcodebuild (0.0.2)
+      danger (~> 2.1)
 
 GEM
   remote: https://rubygems.org/
