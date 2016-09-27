@@ -23,6 +23,13 @@ module Danger
         expect(@dangerfile.status_report[:markdowns]).to be_empty
       end
 
+      it "has to add build_title as prefix" do
+        @xcodebuild.build_title = "Title"
+        @xcodebuild.perfect_build
+
+        expect(@dangerfile.status_report[:messages].first).to eq("Title Perfect build 👍🏻")
+      end
+
       describe 'with warnings' do
 
         before do
@@ -45,6 +52,12 @@ module Danger
           expect(@dangerfile.status_report[:errors]).to be_empty
           expect(@dangerfile.status_report[:messages]).to be_empty
           expect(@dangerfile.status_report[:markdowns]).to be_empty
+        end
+
+        it "has to add build_title as prefix" do
+          @xcodebuild.build_title = "Title"
+          @xcodebuild.parse_warnings
+          expect(@dangerfile.status_report[:warnings].first).to eq("Title Please fix **4** warnings 😒")
         end
 
       end
@@ -82,6 +95,12 @@ module Danger
           expect(@dangerfile.status_report[:markdowns]).to be_empty
         end
 
+        it "has to add build_title as prefix" do
+          @xcodebuild.build_title = "Title"
+          @xcodebuild.parse_errors
+          expect(@dangerfile.status_report[:errors].first).to eq("Title Build failed with **8** errors 🚨")
+        end
+
       end
 
       describe 'with tests failures' do
@@ -108,6 +127,12 @@ module Danger
           expect(@dangerfile.status_report[:warnings]).to be_empty
           expect(@dangerfile.status_report[:messages]).to be_empty
           expect(@dangerfile.status_report[:markdowns]).to be_empty
+        end
+
+        it "has to add build_title as prefix" do
+          @xcodebuild.build_title = "Title"
+          @xcodebuild.parse_tests
+          expect(@dangerfile.status_report[:errors].first).to eq("Title Test execution failed with **2** errors 🚨")
         end
 
       end

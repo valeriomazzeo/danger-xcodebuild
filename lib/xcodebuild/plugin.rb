@@ -23,6 +23,11 @@ module Danger
       @xcodebuild_json = nil
     end
 
+    # Allows you to specify a build title to prefix all the reported messages.
+    # @return   [String]
+    #
+    attr_accessor :build_title
+
     # Allows you to specify an xcodebuild JSON file location to parse.
     attr_reader :json_file
 
@@ -43,7 +48,10 @@ module Danger
       @warning_count = @warning_count + @xcodebuild_json["compile_warnings"].count
       if @warning_count > 0
         warning_string = @warning_count == 1 ? "warning" : "warnings"
-        warn("Please fix **#{@warning_count}** #{warning_string} 😒")
+        message = Array.new
+        message.push (@build_title) unless @build_title.nil?
+        message.push("Please fix **#{@warning_count}** #{warning_string} 😒")
+        warn(message.reject(&:empty?).join(" "))
       end
       return @warning_count
     end
@@ -59,7 +67,10 @@ module Danger
       errors += @xcodebuild_json["duplicate_symbols_errors"].map {|x| "`#{x["message"]}`"}
       if errors.count > 0
         error_string = errors.count == 1 ? "error" : "errors"
-        fail("Build failed with **#{errors.count}** #{error_string} 🚨")
+        message = Array.new
+        message.push (@build_title) unless @build_title.nil?
+        message.push("Build failed with **#{errors.count}** #{error_string} 🚨")
+        fail(message.reject(&:empty?).join(" "))
         errors.each do |error|
           fail(error)
         end
@@ -79,7 +90,10 @@ module Danger
 
       if test_failures.count > 0
         test_string = test_failures.count == 1 ? "error" : "errors"
-        fail("Test execution failed with **#{test_failures.count}** #{test_string} 🚨")
+        message = Array.new
+        message.push (@build_title) unless @build_title.nil?
+        message.push("Test execution failed with **#{test_failures.count}** #{test_string} 🚨")
+        fail(message.reject(&:empty?).join(" "))
         test_failures.each do |test_failure|
           fail(test_failure)
         end
@@ -93,7 +107,10 @@ module Danger
     #
     def perfect_build
       is_perfect_build = @warning_count == 0 && @error_count == 0 && @test_failures_count == 0
-      message("Perfect build 👍🏻") if is_perfect_build
+      message = Array.new
+      message.push (@build_title) unless @build_title.nil?
+      message.push ("Perfect build 👍🏻")
+      message(message.reject(&:empty?).join(" ")) if is_perfect_build
       return is_perfect_build
     end
 
