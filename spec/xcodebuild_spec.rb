@@ -137,6 +137,57 @@ module Danger
 
       end
 
+      describe "with post messages set to false" do
+
+          before do
+              data = {
+                :warnings => ['warning1', 'warning2'],
+                :ld_warnings => ['ld_warnings'],
+                :compile_warnings => ['compile_warnings'],
+                :errors => ['error1', 'error2'],
+                :compile_errors => [
+                  { :file_path => '/tmp/file1.m', :reason => 'reason1' },
+                  { :file_path => '/tmp/file2.m', :reason => 'reason2' }
+                ],
+                :file_missing_errors => [
+                  { :file_path => '/tmp/missing_file1.m', :reason => 'reason1' },
+                  { :file_path => '/tmp/missing_file2.m', :reason => 'reason2' }
+                ],
+                :undefined_symbols_errors => [{ :message => 'undefined_symbols' }],
+                :duplicate_symbols_errors => [{ :message => 'duplicate_symbols' }],
+                :tests_failures => {
+                  :suite1 => [{ :file_path => '/tmp/file1.m', :test_case => "testCase1", :reason => 'reason1' }],
+                  :suite2 => [{ :file_path => '/tmp/file2.m', :test_case => "testCase2", :reason => 'reason2' }]
+                }
+              }.to_json
+
+              filename = 'xcodebuild_tests.json'
+              allow(File).to receive(:open).with(filename, 'r').and_return(StringIO.new(data))
+
+              @xcodebuild.json_file = filename
+          end
+
+          it "must not post messages" do
+              @xcodebuild.post_messages = false
+              warnings = @xcodebuild.parse_warnings
+              errors = @xcodebuild.parse_errors
+              tests_failures = @xcodebuild.parse_tests
+              is_perfect_build = @xcodebuild.perfect_build
+
+              expect(warnings).to eq(4)
+              expect(@dangerfile.status_report[:warnings]).to be_empty
+
+              expect(errors).to eq(8)
+              expect(tests_failures).to eq(2)
+              expect(@dangerfile.status_report[:errors]).to be_empty
+
+              expect(is_perfect_build).to eq(false)
+              expect(@dangerfile.status_report[:messages]).to be_empty
+              expect(@dangerfile.status_report[:markdowns]).to be_empty
+          end
+
+      end
+
     end
   end
 end

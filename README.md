@@ -12,10 +12,14 @@ Exposes warnings, errors and test results. It requires a JSON generated using [x
 
     xcodebuild.json_file = "./fastlane/reports/xcpretty-json-formatter-results.json"
 
-    xcodebuild.parse_warnings
-    xcodebuild.parse_errors
-    xcodebuild.parse_tests
-    xcodebuild.perfect_build
+    xcodebuild.parse_warnings # returns number of warnings
+    xcodebuild.parse_errors # returns number of errors
+    xcodebuild.parse_tests # returns number of test failures
+    xcodebuild.perfect_build # returns a bool indicating if the build was perfect
+
+Messages are posted by default. You can stop them like this:
+
+    xcodebuild.post_messages = false
 
 ## Development
 

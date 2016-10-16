@@ -21,6 +21,7 @@ module Danger
       @error_count = 0
       @test_failures_count = 0
       @xcodebuild_json = nil
+      @post_messages = true
     end
 
     # Allows you to specify a build title to prefix all the reported messages.
@@ -39,6 +40,11 @@ module Danger
       @xcodebuild_json = JSON.parse(File.open(value, 'r').read)
     end
 
+    # Allows you to specify whether default messages should be posted when parsing
+    # @return   [Bool]
+    #
+    attr_accessor :post_messages
+
     # Parses and exposes eventual warnings.
     # @return   [warning_count]
     #
@@ -46,7 +52,7 @@ module Danger
       @warning_count = @xcodebuild_json["warnings"].count
       @warning_count = @warning_count + @xcodebuild_json["ld_warnings"].count
       @warning_count = @warning_count + @xcodebuild_json["compile_warnings"].count
-      if @warning_count > 0
+      if @warning_count > 0 && post_messages
         warning_string = @warning_count == 1 ? "warning" : "warnings"
         message = Array.new
         message.push (@build_title) unless @build_title.nil?
@@ -65,7 +71,7 @@ module Danger
       errors += @xcodebuild_json["file_missing_errors"].map {|x| "`[#{x["file_path"].split("/").last}] #{x["reason"]}`"}
       errors += @xcodebuild_json["undefined_symbols_errors"].map {|x| "`#{x["message"]}`"}
       errors += @xcodebuild_json["duplicate_symbols_errors"].map {|x| "`#{x["message"]}`"}
-      if errors.count > 0
+      if errors.count > 0 && post_messages
         error_string = errors.count == 1 ? "error" : "errors"
         message = Array.new
         message.push (@build_title) unless @build_title.nil?
@@ -88,7 +94,7 @@ module Danger
         test_failures += value.map {|x| "`[#{x["file_path"].split("/").last}] [#{x["test_case"]}] #{x["reason"]}`"}
       end
 
-      if test_failures.count > 0
+      if test_failures.count > 0 && post_messages
         test_string = test_failures.count == 1 ? "error" : "errors"
         message = Array.new
         message.push (@build_title) unless @build_title.nil?
@@ -107,10 +113,12 @@ module Danger
     #
     def perfect_build
       is_perfect_build = @warning_count == 0 && @error_count == 0 && @test_failures_count == 0
-      message = Array.new
-      message.push (@build_title) unless @build_title.nil?
-      message.push ("Perfect build 👍🏻")
-      message(message.reject(&:empty?).join(" ")) if is_perfect_build
+      if post_messages
+          message = Array.new
+          message.push (@build_title) unless @build_title.nil?
+          message.push ("Perfect build 👍🏻")
+          message(message.reject(&:empty?).join(" ")) if is_perfect_build
+      end
       return is_perfect_build
     end
 
